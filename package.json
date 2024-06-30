@@ -1,2 +1,17 @@
-"url": "https://github.com/Michael-Harber/it122"
-"type": "module"
+{
+  "name": "it122-web-server",
+  "version": "1.0.0",
+  "description": "Basic Node.js web server",
+  "type" : "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Michael-Harber/it122"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
+
