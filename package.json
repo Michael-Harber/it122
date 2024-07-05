@@ -2,8 +2,12 @@
   "name": "it122-web-server",
   "version": "1.0.0",
   "description": "Basic Node.js web server",
-  "type" : "module",
+  "type": "module",
   "main": "index.js",
+  "dependencies": {
+    "express": "^4.19.2",
+    "ejs": "^3.1.10"
+  },
   "scripts": {
     "start": "node index.js"
   },
@@ -12,6 +16,9 @@
     "url": "https://github.com/Michael-Harber/it122"
   },
   "author": "Your Name",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2"
+  }
 }
-

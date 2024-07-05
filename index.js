@@ -1,20 +1,36 @@
-import http from 'http';
-http.createServer((req,res) => {
-  const path = req.url.toLowerCase();
-  switch(path) {
-    case '/':
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.end('Home Page');
-      break;
+'use strict'
+import express from 'express';
+import { getAll, getItem } from './data.js';
 
-      case'/about':
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.end('About Page');
-      break;
+const app = express();
+app.set('port', process.env.PORT || 3000);
+app.use(express.static('./public'));
+app.set('view engine', 'ejs');
+app.use(express.urlencoded());
 
-      default:
-      res.writeHead(404, {'Content-Type': 'text/html'});
-      res.end('Not Found');
-      break;
-  }
-}) .listen(process.env.PORT || 3000);
+
+
+app.get('/', (req, res) => {
+  const movies = getAll();
+  res.render('home', { items: movies });
+});
+
+app.get('/detail', (req, res) => {
+  const itemId = req.query.id;
+  const item = getItem(parseInt(itemId));
+  const pageTitle = item ? `Detail for ${item.title}` : 'Movie Not Found';
+  res.render('detail', { item, pageTitle });
+});
+
+app.get('/about', (req, res) => {
+  res.send('About Page');
+});
+
+app.use((req, res) => {
+  res.status(404).send('Not Found');
+});
+
+
+app.listen(app.get('port'), () => {
+  console.log(`Express Started`);
+});

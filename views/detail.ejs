@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pageTitle %></title>
+</head>
+<body>
+  <h1><%= pageTitle %></h1>
+
+  <% if (item) { %>
+    <div>
+      <p><strong>Title:</strong> <%= item.title %></p>
+      <p><strong>Director:</strong> <%= item.director %></p>
+      <p><strong>Year:</strong> <%= item.year %></p>
+      <p><strong>Genre:</strong> <%= item.genre %></p>
+    </div>
+  <% } else { %>
+    <p>Movie not found.</p>
+  <% } %>
+
+  <a href="/">Back to Home</a>
+</body>
+</html>
