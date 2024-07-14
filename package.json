@@ -5,8 +5,9 @@
   "type": "module",
   "main": "index.js",
   "dependencies": {
+    "ejs": "^3.1.10",
     "express": "^4.19.2",
-    "ejs": "^3.1.10"
+    "mongoose": "^8.5.1"
   },
   "scripts": {
     "start": "node index.js"
@@ -16,9 +17,5 @@
     "url": "https://github.com/Michael-Harber/it122"
   },
   "author": "Your Name",
-  "license": "MIT",
-  "dependencies": {
-    "ejs": "^3.1.10",
-    "express": "^4.19.2"
-  }
+  "license": "MIT"
 }
