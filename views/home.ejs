@@ -4,16 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home Page</title>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+
+  <script type="text/babel">
+  let items = <%- items %>;
+
+  function App() {
+    return (
+      <div>
+        <h1>Welcome to the Home Page</h1>
+        {items.map(item => (
+          <div key={item.id}>
+            <h3>
+              <a href={`/detail?id=${item.id}`}>{item.title}</a>
+            </h3>
+            <hr />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    ReactDOM.render(<App />, document.getElementById('root'));
+  });
+    </script>
+      
 </head>
 <body>
-  <h1>Welcome to the Home Page</h1>
-
-  <% items.forEach(item => { %>
-    <div>
-      <h3><a href="/detail?id=<%= item.id %>"><%= item.title %></a></h3>
-    </div>
-    <hr>
-  <% }); %>
+  <div id="root"></div>
 
 </body>
 </html>
