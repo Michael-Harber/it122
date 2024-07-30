@@ -2,12 +2,13 @@
 import express from 'express';
 import Movie from './models/Movie.js';
 import cors from 'cors';
+import mongoose from './src/credentials.js';
 
 const app = express();
+
 app.set('port', process.env.PORT || 3000);
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
-app.use(express.urlencoded());
 app.use(express.json());
 app.use('/api', cors());
 
@@ -16,7 +17,7 @@ app.use('/api', cors());
 app.get('/', async (req, res) => {
   try {
     const movies = await Movie.find();
-    res.render('home', { items: JSON.stringify(movies) });
+    res.render('home', { items: movies });
   } catch (err) {
     console.error('Error fetching movies', err);
     res.status(500).send('Server Error');
@@ -37,15 +38,6 @@ app.get('/detail', async (req, res) => {
 
 app.get('/about', (req, res) => {
   res.send('About Page');
-});
-
-app.use((req, res) => {
-  res.status(404).send('Not Found');
-});
-
-
-app.listen(app.get('port'), () => {
-  console.log(`Express Started`);
 });
 
 app.get('/api/movies', async (req, res) => {
@@ -105,4 +97,13 @@ app.post('/api/movies', async (req, res) => {
     console.error('Error adding or updating movie', err);
     res.status(500).json({ message: 'Server Error' });
   }
+});
+
+app.use((req, res) => {
+  res.status(404).send('Not Found');
+});
+
+
+app.listen(app.get('port'), () => {
+  console.log(`Express Started`);
 });

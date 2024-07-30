@@ -4,12 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home Page</title>
-  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <!-- <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-
+   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <script type="text/babel">
-  let items = <%- items %>;
+
+    console.log("Items data:", <%- JSON.stringify(items) %>);
+    
+  let items = <%- JSON.stringify(items) %>;
 
   function App() {
     return (
@@ -30,11 +33,17 @@
   document.addEventListener('DOMContentLoaded', () => {
     ReactDOM.render(<App />, document.getElementById('root'));
   });
-    </script>
+    </script> -->
       
 </head>
 <body>
-  <div id="root"></div>
+  <h1>Movies List</h1>
+  <ul>
+      <% items.forEach(function(item) { %>
+          <li><a href="/detail?id=<%= item._id %>"><%= item.title %></a></li>
+      <% }); %>
+  </ul>
+  <!-- <div id="root"></div> -->
 
 </body>
 </html>
