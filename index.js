@@ -17,7 +17,7 @@ app.use('/api', cors());
 app.get('/', async (req, res) => {
   try {
     const movies = await Movie.find();
-    res.render('home', { items: movies });
+    res.render('home', { items: movies});
   } catch (err) {
     console.error('Error fetching movies', err);
     res.status(500).send('Server Error');
