@@ -1,49 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home Page</title>
-  <!-- <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <script type="text/babel">
-
-    console.log("Items data:", <%- JSON.stringify(items) %>);
-
-  let items = <%- JSON.stringify(items) %>;
-
-  function App() {
-    return (
-      <div>
-        <h1>Welcome to the Home Page</h1>
-        {items.map(item => (
-          <div key={item.id}>
-            <h3>
-              <a href={`/detail?id=${item.id}`}>{item.title}</a>
-            </h3>
-            <hr />
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    ReactDOM.render(<App />, document.getElementById('root'));
-  });
-    </script> -->
-
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+    </style>
 </head>
 <body>
-  <h1>Movies List</h1>
-  <ul>
-      <% items.forEach(function(item) { %>
-          <li><a href="/detail?id=<%= item._id %>"><%= item.title %></a></li>
-      <% }); %>
-  </ul>
-  <!-- <div id="root"></div> -->
+    <h1>Movies List</h1>
+    <div id="root"></div>
 
+    <script type="text/babel">
+        // Pass items as JSON string and parse it
+        const items = <%- items %>;
+
+        console.log('Items:', items);
+
+        const MoviesList = () => {
+            if (!Array.isArray(items) || items.length === 0) {
+                return <div>No movies available</div>;
+            }
+
+            return (
+                <div>
+                    <ul>
+                        {items.map(movie => (
+                            <li key={movie._id}>
+                                <a href={`/detail?id=${movie._id}`}>{movie.title}</a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<MoviesList />, document.getElementById('root'));
+    </script>
 </body>
 </html>
