@@ -19,6 +19,12 @@
         li {
             margin: 10px 0;
         }
+        .container {
+            display: flex;
+        }
+        .list {
+            margin-right: 20px;
+        }
     </style>
 </head>
 <body>
@@ -26,22 +32,25 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        // Pass items as JSON string and parse it
         const items = <%- items %>;
 
-        console.log('Items:', items);
-
-        const MoviesList = () => {
+        // MoviesList Component
+        const MoviesList = ({ onSelect }) => {
             if (!Array.isArray(items) || items.length === 0) {
                 return <div>No movies available</div>;
             }
 
             return (
-                <div>
+                <div className="list">
                     <ul>
                         {items.map(movie => (
                             <li key={movie._id}>
-                                <a href={`/detail?id=${movie._id}`}>{movie.title}</a>
+                                <a href="#" onClick={(e) => { 
+                                    e.preventDefault(); 
+                                    onSelect(movie._id); 
+                                }}>
+                                    {movie.title}
+                                </a>
                             </li>
                         ))}
                     </ul>
@@ -49,7 +58,105 @@
             );
         };
 
-        ReactDOM.render(<MoviesList />, document.getElementById('root'));
+        const Detail = ({ item, onSave, onClear }) => {
+            const [formValues, setFormValues] = React.useState(
+                item ? { ...item } : { title: '', year: '', director: '', genre: '' }
+            );
+
+            React.useEffect(() => {
+                if (item) {
+                    setFormValues({ ...item });
+                }
+            }, [item]);
+
+            const handleChange = (e) => {
+                const { name, value } = e.target;
+                setFormValues(prevValues => ({
+                    ...prevValues,
+                    [name]: value
+                }));
+            };
+
+            return (
+                <div>
+                    <h2>Details</h2>
+                    <form onSubmit={(e) => e.preventDefault()}>
+                        <div>
+                            <label>Title:</label>
+                            <input
+                                type="text"
+                                name="title"
+                                value={formValues.title}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div>
+                            <label>Year:</label>
+                            <input
+                                type="number"
+                                name="year"
+                                value={formValues.year}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div>
+                            <label>Director:</label>
+                            <input
+                                type="text"
+                                name="director"
+                                value={formValues.director}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div>
+                            <label>Genre:</label>
+                            <input
+                                type="text"
+                                name="genre"
+                                value={formValues.genre}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <button type="button" onClick={() => onSave(formValues)}>Save</button>
+                        <button type="button" onClick={() => setFormValues({ title: '', year: '', director: '', genre: '' })}>Clear</button>
+                    </form>
+                </div>
+            );
+        };
+
+        // App Component
+        const App = () => {
+            const [selectedItem, setSelectedItem] = React.useState(null);
+
+            const handleSelect = (id) => {
+                const item = items.find(item => item._id === id);
+                if (item) {
+                    setSelectedItem({ ...item });
+                }
+            };
+
+            const handleSave = (updatedItem) => {
+                console.log('Saved item:', updatedItem);
+                setSelectedItem(null);
+            };
+
+            const handleClear = () => {
+                setSelectedItem(null);
+            };
+
+            return (
+                <div className="container">
+                    <MoviesList onSelect={handleSelect} />
+                    <Detail
+                        item={selectedItem}
+                        onSave={handleSave}
+                        onClear={handleClear}
+                    />
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
     </script>
 </body>
 </html>
