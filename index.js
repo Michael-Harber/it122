@@ -2,7 +2,21 @@
 import express from 'express';
 import Movie from './models/Movie.js';
 import cors from 'cors';
-import mongoose from './src/credentials.js';
+import mongoose from 'mongoose';
+import connectionString from './src/credentials.js';
+
+
+mongoose.connect(connectionString, {
+  dbName: 'sccprojects',
+});
+
+mongoose.connection.on('open', () => {
+  console.log('Mongoose connected.');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+});
 
 const app = express();
 
